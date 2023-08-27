@@ -1,8 +1,8 @@
 import {
+  useColorModeValue,
   Box,
   Flex,
   IconButton,
-  useColorModeValue,
   Text,
 } from "@chakra-ui/react";
 import Image from "next/image";
@@ -44,7 +44,6 @@ const Time = () => {
   const formatElapsedTime = (milliseconds) => {
     const totalSeconds = Math.floor(milliseconds / 1000);
     const minutes = Math.floor(totalSeconds / 60);
-    const seconds = totalSeconds % 60;
     return `${minutes} min `;
   };
 

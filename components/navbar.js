@@ -1,10 +1,10 @@
 import Logo from "./logo";
 import {
+  useColorModeValue,
   Container,
   Box,
   Heading,
   Flex,
-  useColorModeValue,
   useBreakpointValue,
 } from "@chakra-ui/react";
 import ThemeToggleButton from "./theme-toggle-button";
@@ -29,7 +29,7 @@ const LogoBox = styled.span`
 `;
 
 const Navbar = (props) => {
-  const { path } = props;
+  // const { path } = props;
   const fontSize = useBreakpointValue({ base: "20px", md: "20px", sm: "20px" });
 
   return (

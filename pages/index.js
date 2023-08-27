@@ -1,4 +1,4 @@
-import { Box, Container, Icon, HStack } from "@chakra-ui/react";
+import { Box, Container, HStack } from "@chakra-ui/react";
 import Music from "../components/music";
 import Nature from "../components/nature-sound";
 import Rain from "../components/rain";

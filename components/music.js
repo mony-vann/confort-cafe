@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import {
-  IconButton,
   useColorModeValue,
+  IconButton,
   Box,
   Text,
   Slider,
