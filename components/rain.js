@@ -89,7 +89,7 @@ export default function Rain() {
         </Slider>
       </HStack>
       <audio ref={audioRef} id="audio-player-rain">
-        <source src="/music/rain.mp3" type="audio/mp3" />
+        <source src="/music/rain-loud.mp3" type="audio/mp3" />
         Your browser does not support the audio element.
       </audio>
     </Box>

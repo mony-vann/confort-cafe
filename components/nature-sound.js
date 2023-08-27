@@ -89,7 +89,7 @@ export default function Nature() {
         </Slider>
       </HStack>
       <audio ref={audioRef} id="audio-player-nature">
-        <source src="/music/nature.mp3" type="audio/mp3" />
+        <source src="/music/nature-loud.mp3" type="audio/mp3" />
         Your browser does not support the audio element.
       </audio>
     </Box>
