@@ -17,9 +17,11 @@ const Main = ({ children }) => {
     <Box as="main" pb={8}>
       <Head>
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <meta name="description" content="小さなカフェ" />
+        <meta name="description" content="Comfort喫茶" />
         <meta name="author" content="monyvann" />
         <meta name="author" content="monyvann" />
+        <link rel="apple-touch-icon" href="apple-touch-icon.png" />
+        <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
         <title>Comfort喫茶</title>
       </Head>
 
