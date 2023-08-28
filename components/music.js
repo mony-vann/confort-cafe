@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import {
   useColorModeValue,
+  useMediaQuery,
   IconButton,
   Box,
   Text,
@@ -17,20 +18,11 @@ import styled from "@emotion/styled";
 
 const LogoBox = styled.span`
   font-weight: bold;
-  font-size: 14px;
   display: inline-flex;
+  font-size: 14px;
   align-items: center;
   height: 30px;
-  line-height: 20px;
   padding: 10px;
-
-  > svg {
-    transition: 200ms ease;
-  }
-
-  &:hover > svg {
-    transform: rotate(20deg);
-  }
 `;
 
 const AudioPlayer = ({ tracks }) => {
@@ -40,6 +32,7 @@ const AudioPlayer = ({ tracks }) => {
   const [volume, setVolume] = useState(0.5); // Initial volume
   const [currentTime, setCurrentTime] = useState(0); // Current time of the track
   const [duration, setDuration] = useState(0); // Total duration of the track
+  const [isLgScreen] = useMediaQuery("(min-width: 480px)"); // Customize the breakpoint as needed
 
   const handlePlayNext = () => {
     console.log(isPlaying);
@@ -142,11 +135,28 @@ const AudioPlayer = ({ tracks }) => {
             ></Image>
           </IconButton>
         </Flex>
-        <LogoBox>
-          <Text fontFamily='M PLUS Rounded 1c", sans-serif' fontWeight="bold">
-            Now playing : {currentTrack.slice(0, -4)}
-          </Text>
-        </LogoBox>
+        {isLgScreen ? ( // Check if the screen size is lg
+          <LogoBox>
+            <Text
+              mt={2}
+              fontFamily='M PLUS Rounded 1c", sans-serif'
+              fontWeight="bold"
+            >
+              Now playing : {currentTrack.slice(0, -4)}
+            </Text>
+          </LogoBox>
+        ) : (
+          <LogoBox>
+            <Text
+              align="center"
+              mt={2}
+              fontFamily='M PLUS Rounded 1c", sans-serif'
+              fontWeight="bold"
+            >
+              {currentTrack.slice(0, -4)}
+            </Text>
+          </LogoBox>
+        )}
         <Slider
           mr={3}
           maxW={100}
@@ -174,7 +184,7 @@ const AudioPlayer = ({ tracks }) => {
           </Text>
         </LogoBox>
         <Slider
-          maxW={[50, 400, 400]}
+          maxW={[200, 400, 400]}
           aria-label="slider-ex-4"
           colorScheme={useColorModeValue("yellow", "pink")}
           defaultValue={0}
