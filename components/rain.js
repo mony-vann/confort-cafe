@@ -70,7 +70,7 @@ export default function Rain() {
         <Slider
           ml={2}
           maxW="200"
-          minW={100}
+          minW={[50, 90, 100]}
           aria-label="slider-ex-4"
           colorScheme={useColorModeValue("yellow", "pink")}
           defaultValue={0.1}

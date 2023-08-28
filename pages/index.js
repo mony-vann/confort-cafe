@@ -1,7 +1,8 @@
-import { Box, Container, HStack } from "@chakra-ui/react";
+import { Box, Container, HStack, Flex } from "@chakra-ui/react";
 import Music from "../components/music";
 import Nature from "../components/nature-sound";
 import Rain from "../components/rain";
+import Fire from "../components/fire";
 
 const Page = () => {
   return (
@@ -9,10 +10,14 @@ const Page = () => {
       <Box mt="80px" p={3} align="left">
         <Box flexGrow={1}>
           <Music />
-          <HStack spacing={7}>
-            <Nature />
-            <Rain />
-          </HStack>
+
+          <Flex justifyContent="space-between">
+            <HStack mt={3} spacing={[3, 3, 9]}>
+              <Nature />
+              <Rain />
+              <Fire />
+            </HStack>
+          </Flex>
         </Box>
       </Box>
     </Container>

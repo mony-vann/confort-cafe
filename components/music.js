@@ -10,6 +10,7 @@ import {
   SliderThumb,
   Flex,
   MdGraphicEq,
+  HStack,
 } from "@chakra-ui/react";
 import Image from "next/image";
 import styled from "@emotion/styled";
@@ -37,6 +38,8 @@ const AudioPlayer = ({ tracks }) => {
   const [currentTrackIndex, setCurrentTrackIndex] = useState(0);
   const currentTrack = tracks[currentTrackIndex];
   const [volume, setVolume] = useState(0.5); // Initial volume
+  const [currentTime, setCurrentTime] = useState(0); // Current time of the track
+  const [duration, setDuration] = useState(0); // Total duration of the track
 
   const handlePlayNext = () => {
     console.log(isPlaying);
@@ -59,6 +62,17 @@ const AudioPlayer = ({ tracks }) => {
     setVolume(newVol);
   };
 
+  const handleTimeUpdate = () => {
+    const audioElement = document.getElementById("audio-player");
+    setCurrentTime(audioElement.currentTime);
+  };
+
+  const formatTime = (timeInSeconds) => {
+    const minutes = Math.floor(timeInSeconds / 60);
+    const seconds = Math.floor(timeInSeconds % 60);
+    return `${minutes}:${seconds < 10 ? "0" : ""}${seconds}`;
+  };
+
   const togglePauseAndPlay = () => {
     const audioElement = document.getElementById("audio-player");
     if (isPlaying) {
@@ -73,61 +87,69 @@ const AudioPlayer = ({ tracks }) => {
     const audioElement = document.getElementById("audio-player");
     audioElement.addEventListener("ended", handleTrackEnded);
     audioElement.volume = volume; // Set initial volume
+    audioElement.addEventListener("timeupdate", handleTimeUpdate);
     // setIsPlaying(true); // Start playing the first track
-    audioElement.play(); // Auto play the first track
+    // audioElement.play(); // Auto play the first track
 
     return () => {
       audioElement.removeEventListener("ended", handleTrackEnded);
     };
   }, [currentTrackIndex, volume]);
+
+  useEffect(() => {
+    const audioElement = document.getElementById("audio-player");
+    audioElement.addEventListener("durationchange", () => {
+      setDuration(audioElement.duration);
+    });
+  }, []);
+
   return (
     <Box align="left" mt={16}>
-      <IconButton
-        aria-label="Toggle theme"
-        colorScheme={useColorModeValue("yellow", "pink")}
-        onClick={togglePauseAndPlay}
-      >
-        {isPlaying ? (
-          <Image
-            src={`/images/pause.png`}
-            width={12}
-            height={10}
-            alt="logo"
-          ></Image>
-        ) : (
-          <Image
-            src={`/images/play.png`}
-            width={12}
-            height={10}
-            alt="logo"
-          ></Image>
-        )}
-      </IconButton>
-      <LogoBox>
-        <Text fontFamily='M PLUS Rounded 1c", sans-serif' fontWeight="bold">
-          Now playing : {currentTrack.slice(0, -4)}
-        </Text>
-      </LogoBox>
-      <p></p>
-      <Flex>
-        <IconButton
-          aria-label="Toggle theme"
-          colorScheme={useColorModeValue("yellow", "pink")}
-          onClick={handlePlayNext}
-          mt={2}
-        >
-          <Image
-            src={`/images/next.png`}
-            width={12}
-            height={10}
-            alt="logo"
-          ></Image>
-        </IconButton>
+      <Flex justifyContent="space-between">
+        <Flex>
+          <IconButton
+            aria-label="Toggle theme"
+            colorScheme={useColorModeValue("yellow", "pink")}
+            onClick={togglePauseAndPlay}
+          >
+            {isPlaying ? (
+              <Image
+                src={`/images/pause.png`}
+                width={12}
+                height={10}
+                alt="logo"
+              ></Image>
+            ) : (
+              <Image
+                src={`/images/play.png`}
+                width={12}
+                height={10}
+                alt="logo"
+              ></Image>
+            )}
+          </IconButton>
+          <IconButton
+            aria-label="Toggle theme"
+            ml={3}
+            colorScheme={useColorModeValue("yellow", "pink")}
+            onClick={handlePlayNext}
+          >
+            <Image
+              src={`/images/next.png`}
+              width={12}
+              height={10}
+              alt="logo"
+            ></Image>
+          </IconButton>
+        </Flex>
+        <LogoBox>
+          <Text fontFamily='M PLUS Rounded 1c", sans-serif' fontWeight="bold">
+            Now playing : {currentTrack.slice(0, -4)}
+          </Text>
+        </LogoBox>
         <Slider
-          ml={3}
-          mr={5}
-          mt={2}
-          maxW={285}
+          mr={3}
+          maxW={100}
           aria-label="slider-ex-4"
           colorScheme={useColorModeValue("yellow", "pink")}
           defaultValue={0.5}
@@ -144,6 +166,40 @@ const AudioPlayer = ({ tracks }) => {
             <Box color="tomato" as={MdGraphicEq} />
           </SliderThumb>
         </Slider>
+      </Flex>
+      <Flex mt={4} justifyContent="space-between">
+        <LogoBox>
+          <Text fontFamily='M PLUS Rounded 1c", sans-serif' fontWeight="bold">
+            {formatTime(currentTime)}
+          </Text>
+        </LogoBox>
+        <Slider
+          maxW={[50, 400, 400]}
+          aria-label="slider-ex-4"
+          colorScheme={useColorModeValue("yellow", "pink")}
+          defaultValue={0}
+          min={0}
+          max={duration}
+          step={0.1}
+          value={currentTime}
+          onChange={(value) => {
+            const audioElement = document.getElementById("audio-player");
+            audioElement.currentTime = value;
+            setCurrentTime(value);
+          }}
+        >
+          <SliderTrack bg="gray.200">
+            <SliderFilledTrack />
+          </SliderTrack>
+          <SliderThumb boxSize={4}>
+            <Box color="tomato" as={MdGraphicEq} />
+          </SliderThumb>
+        </Slider>
+        <LogoBox>
+          <Text fontFamily='M PLUS Rounded 1c", sans-serif' fontWeight="bold">
+            {formatTime(duration - currentTime)}
+          </Text>
+        </LogoBox>
       </Flex>
       <audio id="audio-player" src={`/music/${currentTrack}`} />
     </Box>
