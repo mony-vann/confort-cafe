@@ -5,6 +5,7 @@ import { useRouter } from "next/router";
 import dynamic from "next/dynamic";
 import VoxelDogLoader from "../voxel-cafe-loader";
 import Footer from "../footer.js";
+import { Analytics } from "@vercel/analytics/react";
 
 const LazyVoxelDog = dynamic(() => import("../voxel-cafe"), {
   ssr: false,
@@ -34,6 +35,7 @@ const Main = ({ children }) => {
 
         {children}
         <Footer />
+        <Analytics />
       </Container>
     </Box>
   );
