@@ -89,7 +89,7 @@ const AudioPlayer = ({ tracks }) => {
     audioElement.volume = volume; // Set initial volume
     audioElement.addEventListener("timeupdate", handleTimeUpdate);
     // setIsPlaying(true); // Start playing the first track
-    // audioElement.play(); // Auto play the first track
+    audioElement.play(); // Auto play the first track
 
     return () => {
       audioElement.removeEventListener("ended", handleTrackEnded);
